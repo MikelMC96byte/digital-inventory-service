@@ -13,3 +13,5 @@ class Family(Base):
     registered_at = Column(DateTime)
     updated_at = Column(DateTime)
     deleted_at = Column(DateTime)
+
+    company = relationship("Company", back_populates="families")

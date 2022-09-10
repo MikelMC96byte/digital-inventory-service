@@ -2,6 +2,9 @@ from fastapi import FastAPI
 from routers import companies, company_groups
 from private import traces
 import uvicorn
+from database import Base, engine
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 

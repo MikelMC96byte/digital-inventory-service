@@ -9,8 +9,9 @@ class Subfamilies(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     description = Column(String, index=True)
-    id_family = Column(Integer, index=True)
-    id_company = Column(Integer, ForeignKey("companies.id"))
+    id_family = Column(Integer, ForeignKey("families.id"))
     registered_at = Column(DateTime)
     updated_at = Column(DateTime)
     deleted_at = Column(DateTime)
+
+    family = relationship("Family", back_populates="subfamilies")

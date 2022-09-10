@@ -9,7 +9,6 @@ class Role(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     description = Column(String, index=True)
-    rule_list = Column(JSON)
     registered_at = Column(DateTime)
     updated_at = Column(DateTime)
     deleted_at = Column(DateTime)

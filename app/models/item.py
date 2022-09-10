@@ -10,7 +10,9 @@ class Item(Base):
     id = Column(Integer, primary_key=True, index=True)
     id_item_type = Column(Integer, ForeignKey("item_types.id"))
     id_warehouse = Column(Integer, ForeignKey("warehouses.id"))
-    id_company = Column(Integer, ForeignKey("companies.id"))
     registered_at = Column(DateTime)
     updated_at = Column(DateTime)
     deleted_at = Column(DateTime)
+
+    item_type = relationship("ItemType", back_populates="items")
+    warehouse = relationship("Warehouse", back_populates="items")

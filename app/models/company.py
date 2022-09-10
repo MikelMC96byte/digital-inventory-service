@@ -9,7 +9,11 @@ class Company(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     description = Column(String, index=True)
-    id_master_user = Column(String, ForeignKey("users.id"))
+    id_company_group = Column(Integer, ForeignKey("company_groups.id"))
+    id_owner_user = Column(String, ForeignKey("users.id"))
     registered_at = Column(DateTime)
     updated_at = Column(DateTime)
     deleted_at = Column(DateTime)
+
+    owner_user = relationship("User", back_populates="companies")
+    company_group = relationship("CompanyGroup", back_populates="company_groups")

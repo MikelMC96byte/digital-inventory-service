@@ -1,4 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
+from schemas import company_group as schemas
+from dependencies import get_db
+from controllers import company_group as controller
+from sqlalchemy.orm import Session
+from pydantic.typing import List
 
 router = APIRouter(
     prefix="/company-groups",
@@ -9,24 +14,14 @@ router = APIRouter(
     }
 )
 
-fake_company_group_db = [
-    {
-        "id": 1,
-        "name": "GROUP A"
-    },
-    {
-        "id": 2,
-        "name": "GROUP B"
-    }
-]
+@router.get("", response_model=List[schemas.CompanyGroup])
+async def read_company_groups(db: Session = Depends(get_db), skip: int = 0, limit: int = 10):
+    return controller.get_company_groups(db=db, skip=skip, limit=limit)
 
-@router.get("/")
-async def read_company_groups():
-    return fake_company_group_db
+@router.get("/{id}", response_model=schemas.CompanyGroup)
+async def read_company_group(id: int, db: Session = Depends(get_db)):
+    return controller.get_company_group(db=db, id=id)
 
-@router.get("/{id}")
-async def read_company_group(id: int):
-    for group in fake_company_group_db:
-        if group["id"] == id:
-            return group
-    return HTTPException(404)
+@router.post("", response_model=schemas.CompanyGroup)
+async def create_company_group(company_group: schemas.CompanyGroupCreate, db: Session = Depends(get_db)):
+    return controller.create_company_group(db=db, company_group=company_group)

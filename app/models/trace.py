@@ -4,11 +4,14 @@ from sqlalchemy.orm import relationship
 from ..database import Base
 
 
-class Rule(Base):
-    __tablename__ = "rules"
+class Trace(Base):
+    __tablename__ = "traces"
 
     id = Column(Integer, primary_key=True, index=True)
-    description = Column(String, index=True)
+    id_user = Column(Integer, ForeignKey("users.id"))
+    action = Column(String)
+    target = Column(String)
+    data = Column(JSON)
     registered_at = Column(DateTime)
-    updated_at = Column(DateTime)
-    deleted_at = Column(DateTime)
+
+    user = relationship("User", back_populates="users")
